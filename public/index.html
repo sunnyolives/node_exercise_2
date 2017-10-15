@@ -11,7 +11,7 @@
 
 		  	<h1 class="red">Belsebubs inferno</h1>
 		  	<br>
-    		<input  id="nameIn" value="HVA ER DITT NAVN" />
+    		<input  id="inputName" value="HVA ER DITT NAVN" />
 			<button id="btn">Bank på døren</button>
 			<h3>Belsebub sier: </h3>
 			<h3 class="belsebub" id="greetingOut">*snøft*</h3>
@@ -21,10 +21,7 @@
 	<script>
 	
 		// init ------------------------
-		// let nameIn = document.getElementById("nameIn");
-		let inputName = #{JSON.stringify(name)};
-		let greeting = #{JSON.stringify(greeting)};
-
+		let inputName = document.getElementById("inputName");
 		let greetingOut =  document.getElementById("greetingOut");
 		let btn = document.getElementById("btn");
 			
@@ -33,8 +30,26 @@
 		// sendGreeting ------------------------	
 		function sendGreeting() {
 	
-			greetingOut.innerHTML = greeting + ", " + inputname;
-			// nameIn.value;
+			if (inputName.value) {
+
+					if(inputName.value == 666){
+								greetingOut.innerHTML = "Middagsbuffeten finner du til venstre for det endeløse hullet...";	
+								console.log("666");
+					}		
+					
+				else {
+
+						fetch(`/hilsen?name=${inputName.value}`).then(res =>{
+							return res.json();
+						}).then(res => {
+							greetingOut.innerHTML = res;
+						});
+				}
+			} 
+			
+			else {
+				greetingOut.innerHTML = "Jeg må vite navnet ditt, hedning";
+			}
 			
 		}
 	
@@ -42,12 +57,12 @@
 
 </body>
 
-<style>
+<style type="text/css">
 
 	.wrapper {
 		 display: flex;
 		 flex-wrap: wrap;
-		 width: 300px;
+		 width: 360px;
 		 margin: auto;
 	}
 
